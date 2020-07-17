@@ -10,7 +10,7 @@ from jicaiauto.config.config import DBCONFIG
 
 class DB(object):
     def __init__(self):
-        self.conn = connect(DBCONFIG().path)
+        self.conn = connect(DBCONFIG().dbpath)
         self.cur = self.conn.cursor()
 
     def select(self, sql=None, parames=None, *args, **kwargs):

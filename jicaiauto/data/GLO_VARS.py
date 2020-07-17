@@ -5,4 +5,8 @@ __project__ = 'jicaiauto'
 __script__ = 'GOL_VARS.py'
 __create_time__ = '2020/7/15 23:15'
 
-PUBLIC_VARS = {'WebDriverWait': 30, 'poll_frequency': 0.5, 'page_wait_timeout': 10}
+PUBLIC_VARS = {
+    'WebDriverWait': 30,
+    'poll_frequency': 0.5,
+    'page_wait_timeout': 10
+}

@@ -5,6 +5,6 @@ __project__ = 'jicaiauto'
 __script__ = '__version__.py'
 __create_time__ = '2020/7/15 23:21'
 
-VERSION = (0, 0, 1, 6)
+VERSION = (0, 0, 2, 0)
 
 __version__ = '.'.join(map(str, VERSION))

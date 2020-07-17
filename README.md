@@ -156,6 +156,8 @@
     pytest --html=report.html --self-contained-html
     or
     pytest --html=report.html --self-contained-html -m xiaobai_web
+    or
+    pytest --html=report.html --self-contained-html -o log_cli=true -o log_cli_level=INFO
 
 ## 更新日志
 | 版本 | 功能 |
@@ -166,3 +168,5 @@
 | 0.0.1.4 | 更新主方法名web_action,app_action,api_action新增app环境检测 |
 | 0.0.1.5 | 更新上一版本的小BUG |
 | 0.0.1.6 | 代码调整 |
+| 0.0.1.7 | 小更新 |
+| 0.0.2.0 | 添加邮件发送，用例排序，chrome提示框禁止等等 |

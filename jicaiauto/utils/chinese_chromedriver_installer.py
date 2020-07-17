@@ -5,8 +5,6 @@ __project__ = 'jicaiauto'
 __script__ = 'chinese_chromedriver_installer.py'
 __create_time__ = '2020/7/17 1:04'
 
-TAOBAO_MIRROR_DOWNLOAD_URL = 'https://npm.taobao.org/mirrors/chromedriver/'
-
 from urllib.request import urlretrieve, urlopen
 from winreg import HKEY_CURRENT_USER, OpenKey, EnumValue
 from re import findall, IGNORECASE
@@ -26,11 +24,15 @@ def back(a,b,c):
     print('当前已下载%.2f%%' % per, end='')
 
 def download():
-    chrome_current_version = EnumValue(OpenKey(HKEY_CURRENT_USER, 'Software\Google\Chrome\BLBeacon'), 0)[1]
-    version_list = chrome_current_version.split('.')
-    res = urlopen(TAOBAO_MIRROR_DOWNLOAD_URL).read().decode('utf-8')
-    LAST_VERSION = findall(f'/mirrors/chromedriver/{version_list[0]}([0-9\.]+)/">', res, IGNORECASE)[0]
-    DOWNLOAD_URL = f'https://npm.taobao.org/mirrors/chromedriver/{version_list[0]}{LAST_VERSION}/chromedriver_win32.zip'
-    urlretrieve(DOWNLOAD_URL, 'chromedriver_win32.zip', back)
-    ZipFile('chromedriver_win32.zip').extract('chromedriver.exe')
-    remove('chromedriver_win32.zip')
+    TAOBAO_MIRROR_DOWNLOAD_URL = 'https://npm.taobao.org/mirrors/chromedriver/'
+    try:
+        chrome_current_version = EnumValue(OpenKey(HKEY_CURRENT_USER, 'Software\Google\Chrome\BLBeacon'), 0)[1]
+        version_list = chrome_current_version.split('.')
+        res = urlopen(TAOBAO_MIRROR_DOWNLOAD_URL).read().decode('utf-8')
+        LAST_VERSION = findall(f'/mirrors/chromedriver/{version_list[0]}([0-9\.]+)/">', res, IGNORECASE)[0]
+        DOWNLOAD_URL = f'https://npm.taobao.org/mirrors/chromedriver/{version_list[0]}{LAST_VERSION}/chromedriver_win32.zip'
+        urlretrieve(DOWNLOAD_URL, 'chromedriver_win32.zip', back)
+        ZipFile('chromedriver_win32.zip').extract('chromedriver.exe')
+        remove('chromedriver_win32.zip')
+    except:
+        raise ('是不是没安装Chrome浏览器呢？')

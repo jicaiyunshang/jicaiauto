@@ -4,11 +4,11 @@ __email__ = '807447312@qq.com'
 __project__ = 'jicaiauto'
 __script__ = 'config.py'
 __create_time__ = '2020/7/6 14:11'
-
+'''  UI自动化可以使用该文件，其他测试可以移除防止对测试有干扰   '''
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
-from appium import webdriver as app_webdriver
 from jicaiauto.data.GLO_VARS import PUBLIC_VARS
+from jicaiauto.utils.chinese_chromedriver_installer import download
 import pytest
 
 b = None
@@ -24,7 +24,6 @@ def pytest_runtest_makereport(item):
     outcome = yield
     report = outcome.get_result()
     extra = getattr(report, 'extra', [])
-
     if report.when == 'call' or report.when == "setup":
         xfail = hasattr(report, 'wasxfail')
         if (report.skipped and xfail) or (report.failed and not xfail):
@@ -41,13 +40,21 @@ def _capture_screenshot():
     截图保存为base64，展示到html中
     :return:
     '''
-    return b.get_screenshot_as_base64()
+    if b:
+        return b.get_screenshot_as_base64()
+    else:
+        return '未截图'
 
-@pytest.fixture(scope='session', autouse=True)
+@pytest.fixture(autouse=True)
 def browser():
     global b
     if b is None:
         chrome_options = Options()
-        b = webdriver.Chrome(chrome_options=chrome_options)
-        b.implicitly_wait(PUBLIC_VARS['WebDriverWait'])
+        try:
+            b = webdriver.Chrome(chrome_options=chrome_options)
+            b.implicitly_wait(PUBLIC_VARS['WebDriverWait'])
+        except Exception as e:
+            download()
+        except TimeoutError as e:
+            print('自己手动下载吧，https://npm.taobao.org/mirrors/chromedriver/')
     return b
